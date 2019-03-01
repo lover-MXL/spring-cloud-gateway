@@ -1,0 +1,6 @@
+1.配置文件中Predicates和StripPrefix 首字母必须大写
+        错误分析：
+        java.lang.IllegalArgumentException: Unable to find RoutePredicateFactory with name path
+
+
+2.gateway使用的netty+webflux实现，不要加入web依赖，需要加入webflux依赖。
