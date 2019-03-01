@@ -1,0 +1,29 @@
+
+server:
+  port: 8082
+spring:
+  application:
+    name: service-lease
+    #JPA configure mysql路径，用户名、密码 以及驱动类
+  datasource:
+    url: jdbc:mysql://192.168.1.109:3306/lease?useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: CarCredit2016
+    driver-class-name: com.mysql.cj.jdbc.Driver #原驱动名称为 com.mysql.jdbc.Driver，升级boot版本后，建议更新成这个  : 驱动程序通过SPI自动注册，通常不需要手动加载驱动程序类
+    initialSize: 60
+    maxActive: 60
+    validationQuery: SELECT 1
+    testOnBorrow: true
+    testWhileIdle: true
+    testOnReturn: true
+    minEvictableIdleTimeMillis: 5000
+    timeBetweenEvictionRunsMillis: 8000
+  cloud:
+    gateway:
+      routes:
+      - id: host_route
+        uri: http://localhost:8082/demo
+        predicates:
+        - Path=/a/** # 请求地址携带a的，则转发
+        filters:
+        - StripPrefix= 1 #截取/a/之后的路径
